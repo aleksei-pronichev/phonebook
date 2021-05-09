@@ -8,18 +8,18 @@ import ru.pronichev.phonebook.entities.Note;
 import ru.pronichev.phonebook.exception.errors.NotFoundException;
 import ru.pronichev.phonebook.exception.errors.NotValidException;
 import ru.pronichev.phonebook.repositories.NoteRepository;
-import ru.pronichev.phonebook.repositories.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class NoteService {
     private final NoteRepository noteRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public NoteDto findById(Long id) {
-        return noteRepository.findById(id)
-                .map(NoteDto::new)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        return new NoteDto(getNoteById(id));
     }
 
     public NoteDto saveOrUpdate(NoteDto noteDto) {
@@ -27,15 +27,12 @@ public class NoteService {
             throw new NotValidException("Name not valid");
         }
         if (Strings.isBlank(noteDto.getPhone())) {
-            throw new NotValidException("phone not valid");
+            throw new NotValidException("Phone not valid");
         }
         var note = new Note();
 
         note.setId(noteDto.getId());
-        note.setUser(
-                userRepository.findById(noteDto.getUserId())
-                        .orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found", noteDto.getUserId())))
-        );
+        note.setUser(userService.getUserById(noteDto.getUserId()));
         note.setName(noteDto.getName());
         note.setPhone(noteDto.getPhone());
 
@@ -43,10 +40,18 @@ public class NoteService {
     }
 
     public void deleteById(Long id) {
-        noteRepository.deleteById(
-                noteRepository.findById(id)
-                        .orElseThrow(() -> new NotFoundException("Note not found"))
-                        .getId()
-        );
+        noteRepository.deleteById(getNoteById(id).getId());
+    }
+
+    public Note getNoteById(Long noteId) {
+        return noteRepository.findById(noteId)
+                .orElseThrow(() -> new NotFoundException(String.format("Note with id: %s not found", noteId)));
+    }
+
+    public List<NoteDto> findAllByUserId(Long userId) {
+        return noteRepository.findAllByUser(userService.getUserById(userId))
+                .stream()
+                .map(NoteDto::new)
+                .collect(Collectors.toList());
     }
 }

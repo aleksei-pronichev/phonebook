@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.pronichev.phonebook.dto.NoteDto;
+import ru.pronichev.phonebook.dto.UserDto;
 import ru.pronichev.phonebook.services.NoteService;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -16,6 +19,11 @@ public class NoteController {
     @GetMapping("/{id}")
     public ResponseEntity<NoteDto> findById(@PathVariable Long id) {
         return new ResponseEntity<>(noteService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/all")
+    public ResponseEntity<List<NoteDto>> findAllUsers(@PathVariable Long userId) {
+        return new ResponseEntity<>(noteService.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping

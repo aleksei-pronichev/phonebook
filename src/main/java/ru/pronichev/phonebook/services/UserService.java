@@ -24,9 +24,7 @@ public class UserService {
     }
 
     public UserDto findById(Long id) {
-        return userRepository.findById(id)
-                .map(UserDto::new)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        return new UserDto(getUserById(id));
     }
 
     public UserDto saveOrUpdate(UserDto userDto) {
@@ -42,10 +40,12 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        userRepository.deleteById(
-                userRepository.findById(id)
-                        .orElseThrow(() -> new NotFoundException("User not found"))
-                        .getId()
+        userRepository.deleteById(getUserById(id).getId()
         );
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found", userId)));
     }
 }
