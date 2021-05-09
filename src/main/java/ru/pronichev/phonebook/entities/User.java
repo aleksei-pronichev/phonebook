@@ -16,9 +16,9 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", unique = true, length = 45, nullable = false)
-    private String name;
+    @Column(name = "login", unique = true, length = 45, nullable = false)
+    private String login;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<Note> notes;
 }

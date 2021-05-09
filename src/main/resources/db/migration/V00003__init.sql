@@ -1,4 +1,4 @@
-insert into users (id, username)
+insert into users (id, login)
 values (1, 'Bill'),
        (2, 'Antonio');
 
