@@ -42,8 +42,8 @@ public class UserController {
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/find/{login}")
-    public ResponseEntity<List<UserDto>> findByLogin(@PathVariable String login) {
+    @GetMapping("/find_by_login")
+    public ResponseEntity<List<UserDto>> findByLogin(@RequestParam(value = "login") String login) {
         return new ResponseEntity<>(userService.findByLogin(login), HttpStatus.OK);
     }
 }

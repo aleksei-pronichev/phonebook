@@ -48,8 +48,8 @@ public class NoteService {
                 .orElseThrow(() -> new NotFoundException(String.format("Note with id: %s not found", noteId)));
     }
 
-    public List<NoteDto> findByPhone(String phone) {
-        List<Note> notes = noteRepository.findByPhoneContaining(phone);
+    public List<NoteDto> findByPhone(Long userId, String phone) {
+        List<Note> notes = noteRepository.findByUserAndPhoneContaining(userService.getUserById(userId), phone);
         if (notes.isEmpty()) {
             throw new NotFoundException("Not found");
         }

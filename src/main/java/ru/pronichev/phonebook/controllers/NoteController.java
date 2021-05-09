@@ -42,8 +42,11 @@ public class NoteController {
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/find/{phone}")
-    public ResponseEntity<List<NoteDto>> findByPhone(@PathVariable String phone) {
-        return new ResponseEntity<>(noteService.findByPhone(phone), HttpStatus.OK);
+    @GetMapping("/{user_id}/find_by_phone")
+    public ResponseEntity<List<NoteDto>> findByPhone(
+            @PathVariable(value = "user_id") Long userId,
+            @RequestParam(value = "phone") String phone
+    ) {
+        return new ResponseEntity<>(noteService.findByPhone(userId ,phone), HttpStatus.OK);
     }
 }

@@ -11,5 +11,5 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findAllByUserOrderByName(User user);
 
-    List<Note> findByPhoneContaining(String phone);
+    List<Note> findByUserAndPhoneContaining(User user, String phone);
 }
