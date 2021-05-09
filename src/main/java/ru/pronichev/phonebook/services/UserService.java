@@ -17,10 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<UserDto> findAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserDto::new)
-                .collect(Collectors.toList());
+        return convertUsers(userRepository.findAll());
     }
 
     public UserDto findById(Long id) {
@@ -47,5 +44,19 @@ public class UserService {
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id: %s not found", userId)));
+    }
+
+    public List<UserDto> findByLogin(String login) {
+        List<User> users = userRepository.findByLoginContainingIgnoreCase(login);
+        if (users.isEmpty()) {
+            throw new NotFoundException("Not found");
+        }
+        return convertUsers(users);
+    }
+
+    private List<UserDto> convertUsers(List<User> users) {
+        return users.stream()
+                .map(UserDto::new)
+                .collect(Collectors.toList());
     }
 }

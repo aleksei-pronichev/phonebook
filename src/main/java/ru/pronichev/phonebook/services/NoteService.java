@@ -48,10 +48,23 @@ public class NoteService {
                 .orElseThrow(() -> new NotFoundException(String.format("Note with id: %s not found", noteId)));
     }
 
-    public List<NoteDto> findAllByUserId(Long userId) {
-        return noteRepository.findAllByUser(userService.getUserById(userId))
-                .stream()
+    public List<NoteDto> findByPhone(String phone) {
+        List<Note> notes = noteRepository.findByPhoneContaining(phone);
+        if (notes.isEmpty()) {
+            throw new NotFoundException("Not found");
+        }
+        return convertNotes(notes);
+    }
+
+    private List<NoteDto> convertNotes(List<Note> notes) {
+        return notes.stream()
                 .map(NoteDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<NoteDto> findAllByUserId(Long userId) {
+        return convertNotes(
+                noteRepository.findAllByUserOrderByName(userService.getUserById(userId))
+        );
     }
 }

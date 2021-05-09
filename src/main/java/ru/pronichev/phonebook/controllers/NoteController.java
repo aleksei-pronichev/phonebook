@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.pronichev.phonebook.dto.NoteDto;
-import ru.pronichev.phonebook.dto.UserDto;
 import ru.pronichev.phonebook.services.NoteService;
 
 import java.util.List;
@@ -21,19 +20,19 @@ public class NoteController {
         return new ResponseEntity<>(noteService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/all")
-    public ResponseEntity<List<NoteDto>> findAllUsers(@PathVariable Long userId) {
+    @GetMapping("/{user_id}/all")
+    public ResponseEntity<List<NoteDto>> findAllNoteByUserId(@PathVariable(value = "user_id") Long userId) {
         return new ResponseEntity<>(noteService.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<NoteDto> creatNewUser(@RequestBody NoteDto noteDto) {
+    public ResponseEntity<NoteDto> createNewNote(@RequestBody NoteDto noteDto) {
         noteDto.setId(null);
         return new ResponseEntity<>(noteService.saveOrUpdate(noteDto), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<NoteDto> updateUser(@RequestBody NoteDto noteDto) {
+    public ResponseEntity<NoteDto> updateNote(@RequestBody NoteDto noteDto) {
         return new ResponseEntity<>(noteService.saveOrUpdate(noteDto), HttpStatus.OK);
     }
 
@@ -41,5 +40,10 @@ public class NoteController {
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         noteService.deleteById(id);
         return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{phone}")
+    public ResponseEntity<List<NoteDto>> findByPhone(@PathVariable String phone) {
+        return new ResponseEntity<>(noteService.findByPhone(phone), HttpStatus.OK);
     }
 }
