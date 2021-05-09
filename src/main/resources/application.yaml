@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.151.5:3306/phone-book
     username: user
     password: 123Qq123
@@ -12,15 +12,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+#  flyway:
+#    locations: classpath:db/migration
 
 logging:
   level:
     root: info
-    org:
-      springframework:
-        web: debug
-        hibernate: error
-        data: error
   file:
     path: logs
   pattern:
