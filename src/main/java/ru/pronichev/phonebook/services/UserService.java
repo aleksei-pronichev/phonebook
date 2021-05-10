@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public UserDto findById(Long id) {
-        return new UserDto(getUserById(id));
+        return UserDto.toDto(getUserById(id));
     }
 
     public UserDto saveOrUpdate(UserDto userDto) {
@@ -29,11 +29,7 @@ public class UserService {
             throw new NotValidException("login not valid");
         }
 
-        var user = new User();
-        user.setId(userDto.getId());
-        user.setLogin(userDto.getLogin());
-
-        return new UserDto(userRepository.save(user));
+        return UserDto.toDto(userRepository.save(userDto.toDomain()));
     }
 
     public void deleteById(Long id) {
@@ -56,7 +52,7 @@ public class UserService {
 
     private List<UserDto> convertUsers(List<User> users) {
         return users.stream()
-                .map(UserDto::new)
+                .map(UserDto::toDto)
                 .collect(Collectors.toList());
     }
 }

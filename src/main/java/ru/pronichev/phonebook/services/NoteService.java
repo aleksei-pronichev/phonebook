@@ -19,7 +19,7 @@ public class NoteService {
     private final UserService userService;
 
     public NoteDto findById(Long id) {
-        return new NoteDto(getNoteById(id));
+        return NoteDto.toDto(getNoteById(id));
     }
 
     public NoteDto saveOrUpdate(NoteDto noteDto) {
@@ -29,14 +29,10 @@ public class NoteService {
         if (Strings.isBlank(noteDto.getPhone())) {
             throw new NotValidException("Phone not valid");
         }
-        var note = new Note();
-
-        note.setId(noteDto.getId());
-        note.setUser(userService.getUserById(noteDto.getUserId()));
-        note.setName(noteDto.getName());
-        note.setPhone(noteDto.getPhone());
-
-        return new NoteDto(noteRepository.save(note));
+        var note = noteDto.toDomain(
+                userService.getUserById(noteDto.getUserId())
+        );
+        return NoteDto.toDto(noteRepository.save(note));
     }
 
     public void deleteById(Long id) {
@@ -58,7 +54,7 @@ public class NoteService {
 
     private List<NoteDto> convertNotes(List<Note> notes) {
         return notes.stream()
-                .map(NoteDto::new)
+                .map(NoteDto::toDto)
                 .collect(Collectors.toList());
     }
 

@@ -47,6 +47,6 @@ public class NoteController {
             @PathVariable(value = "user_id") Long userId,
             @RequestParam(value = "phone") String phone
     ) {
-        return new ResponseEntity<>(noteService.findByPhone(userId ,phone), HttpStatus.OK);
+        return new ResponseEntity<>(noteService.findByPhone(userId, phone), HttpStatus.OK);
     }
 }
