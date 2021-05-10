@@ -21,7 +21,7 @@ class UserDtoTest {
 
     @Test
     void toDomain() {
-        UserDto userDto = new UserDto(56l, "TestDto");
+        UserDto userDto = new UserDto(56L, "TestDto");
         User user = userDto.toDomain();
 
         assertEquals(user.getId(), userDto.getId());
