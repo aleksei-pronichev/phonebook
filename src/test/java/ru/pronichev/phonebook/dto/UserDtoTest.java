@@ -45,12 +45,12 @@ class UserDtoTest {
         user.setId(87L);
         UserDto userDto = UserDto.toDto(user);
 
-        assertThat(this.jacksonTester.write(userDto)).isStrictlyEqualToJson("user-test.json");
+        assertThat(this.jacksonTester.write(userDto)).isStrictlyEqualToJson("UserDto.json");
     }
 
     @Test
     void testDeserializeUser() throws IOException {
-        UserDto userDto = this.jacksonTester.read("user-test.json").getObject();
+        UserDto userDto = this.jacksonTester.read("UserDto.json").getObject();
 
         assertEquals(87L, userDto.getId());
         assertEquals("TestLogin", userDto.getLogin());
