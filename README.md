@@ -21,6 +21,16 @@ Start it with command (jar filename may be different, check it before start)
 java -jar phonebook-0.0.1-SNAPSHOT.jar
 ````
 
+** Application use inmemory database  
+** For using another, you should edit files:  
+settings:
+````
+    src/main/resources/application.yaml
+````
+dependencies (jdbc-connectors)  
+````
+    pom.xml
+````
 # Rest Api
 
 ## Users
