@@ -62,13 +62,18 @@ class UserServiceTest {
         dbUser.setId(id);
         dbUser.setLogin("TestValue");
 
-        given(this.userRepository.findById(any()))
+        given(this.userRepository.findById(id))
                 .willReturn(Optional.of(dbUser));
 
         UserDto userDto = userService.findById(id);
 
         assertEquals(dbUser.getId(), userDto.getId());
         assertEquals(dbUser.getLogin(), userDto.getLogin());
+
+        assertThrows(
+                NotFoundException.class,
+                () -> userService.findById(id + 1)
+        );
     }
 
     @Test
@@ -115,14 +120,12 @@ class UserServiceTest {
 
     @Test
     void getUserById() {
-        long id = 42L;
-
         given(this.userRepository.findById(any()))
                 .willReturn(Optional.empty());
 
         assertThrows(
                 NotFoundException.class,
-                () -> userService.findById(id)
+                () -> userService.findById(1L)
         );
     }
 
