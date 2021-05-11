@@ -42,7 +42,7 @@ public class UserController {
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/find_by_login")
+    @GetMapping("/find")
     public ResponseEntity<List<UserDto>> findByLogin(@RequestParam(value = "login") String login) {
         return new ResponseEntity<>(userService.findByLogin(login), HttpStatus.OK);
     }

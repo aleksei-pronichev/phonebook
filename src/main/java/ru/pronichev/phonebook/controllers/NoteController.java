@@ -20,7 +20,7 @@ public class NoteController {
         return new ResponseEntity<>(noteService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{user_id}/all")
+    @GetMapping("/user/{user_id}")
     public ResponseEntity<List<NoteDto>> findAllNoteByUserId(@PathVariable(value = "user_id") Long userId) {
         return new ResponseEntity<>(noteService.findAllByUserId(userId), HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class NoteController {
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
-    @GetMapping("/{user_id}/find_by_phone")
+    @GetMapping("/user/{user_id}/find")
     public ResponseEntity<List<NoteDto>> findByPhone(
             @PathVariable(value = "user_id") Long userId,
             @RequestParam(value = "phone") String phone
