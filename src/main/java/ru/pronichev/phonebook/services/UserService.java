@@ -33,8 +33,7 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        userRepository.deleteById(getUserById(id).getId()
-        );
+        userRepository.deleteById(getUserById(id).getId());
     }
 
     public User getUserById(Long userId) {

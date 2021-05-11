@@ -1,22 +1,27 @@
 # Start application
-You need:  
+
+You need:
+
 - java 11
 - maven
 
-Open project path with command line
-Than you can use spring-boot-plugin (maven)
+Open project path with command line Than you can use spring-boot-plugin (maven)
+
 ````
 spring-boot:run -f pom.xml
 ````
+
 Application is ready
 
 You also can do it with standard maven packaging
+
 ````
 mvn package -f pom.xml
 ````
+
 After testing and packaging, you can see target folder, go to that folder with command line  
-Target include our application - jar file.
-Start it with command (jar filename may be different, check it before start)
+Target include our application - jar file. Start it with command (jar filename may be different, check it before start)
+
 ````
 java -jar phonebook-0.0.1-SNAPSHOT.jar
 ````
@@ -24,26 +29,33 @@ java -jar phonebook-0.0.1-SNAPSHOT.jar
 ** Application use inmemory database  
 ** For using another, you should edit files:  
 settings:
+
 ````
     src/main/resources/application.yaml
 ````
-dependencies (jdbc-connectors)  
+
+dependencies (jdbc-connectors)
+
 ````
     pom.xml
 ````
+
 # Rest Api
 
 ## Users
+
 The main page for user:  
 {hostname}/api/v1/users/
 
 json example for transfer:
+
 ````
     {
         "id": 1,
         "login": "Bill"
     }
 ````
+
 Commands:
 
 Request | Type | address | description | return result
@@ -56,10 +68,12 @@ delete user | DELETE | ./api/v1/users/{id} | {id} - user's identifier | only htt
 search user | GET | ./api/v1/users/find?login={user} | {user} - user's login or part of it | multi
 
 ## Notes
+
 The main page for user:  
 {hostname}/api/v1/users/
 
 json example for transfer:
+
 ````
     {
         "id": 1,
@@ -68,6 +82,7 @@ json example for transfer:
         "phone": "3466"
     }
 ````
+
 Commands:
 
 Request | Type | address | description | return result
