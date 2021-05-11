@@ -119,7 +119,7 @@ class NoteServiceTest {
                 .willReturn(Optional.empty());
 
         assertThrows(
-                NotValidException.class,
+                NotFoundException.class,
                 () -> noteService.deleteById(1L)
         );
     }
@@ -183,10 +183,19 @@ class NoteServiceTest {
 
     @Test
     void findAllByUserId() {
-        given(this.userRepository.findById(any()))
-                .willReturn(Optional.empty());
+        long user_id = 5L;
 
-        List<NoteDto> noteDtoList = noteService.findAllByUserId(1L);
+        User dbUser = new User();
+        dbUser.setId(user_id);
+        dbUser.setLogin("TestValue");
+
+        given(this.userRepository.findById(user_id))
+                .willReturn(Optional.of(dbUser));
+
+        given(this.noteRepository.findAllByUserOrderByName(any()))
+                .willReturn(Collections.emptyList());
+
+        List<NoteDto> noteDtoList = noteService.findAllByUserId(user_id);
 
         assertTrue(noteDtoList.isEmpty());
     }
