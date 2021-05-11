@@ -113,7 +113,7 @@ class UserServiceTest {
                 .willReturn(Optional.empty());
 
         assertThrows(
-                NotValidException.class,
+                NotFoundException.class,
                 () -> userService.deleteById(1L)
         );
     }
